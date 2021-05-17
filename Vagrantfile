@@ -3,8 +3,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "vagpy" do |vagpy|
     vagpy.vm.hostname = "vagpy"
-    vagpy.vm.network :"private_network", ip: "192.168.50.5",
-      vitrualbox__intnet: true
+    vagpy.vm.network :"private_network", ip: "192.168.50.5"
     vagpy.vm.network "forwarded_port", guest:80, host:9000
     vagpy.vm.network "forwarded_port", guest:5000, host:9001
     vagpy.vm.provision "shell", inline: <<-SHELL
@@ -15,6 +14,20 @@ Vagrant.configure("2") do |config|
       sudo systemctl restart salt-minion
     SHELL
   end
+  config.vm.define "react" do |react|
+    react.vm.hostname = "react"
+    react.vm.network :"private_network", ip: "192.168.50.4"
+    react.vm.network "forwarded_port", guest:3000, host:3001
+    react.vm.provision "shell", inline: <<-SHELL
+      sudo apt-get update
+      sudo apt-get install -y salt-minion
+      echo "master: 192.168.50.1" > /etc/salt/minion
+      echo "id: react" >> /etc/salt/minion
+      sudo systemctl restart salt-minion
+    SHELL
+  end
+  
+  
 end
 
 
