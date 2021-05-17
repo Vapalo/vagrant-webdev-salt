@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Testisivu</title>
+<body>
+	<h1>Employee lista</h1>
+	{% for person in persons %}
+		<p> {{person.name}}, {{person.address}}</p>
+	{% endfor %}
+	
+</body>
+</head>
+</html>
